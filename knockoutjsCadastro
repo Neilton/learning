@@ -1,0 +1,84 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Knockout Exemplo de cadastro</title>
+  
+  
+  <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
+  <script type='text/javascript' src="http://knockoutjs.com/downloads/knockout-2.2.0.js"></script>
+    
+  
+  <style type='text/css'>
+    p {
+    margin-bottom: .5em;
+}
+  </style>
+  
+<script type='text/javascript'>//<![CDATA[
+$(window).load(function(){
+var CrudModel = function(data) {
+    data = data || {};
+
+    this.firstName = ko.observable();
+    this.lastName = ko.observable();
+    this.email = ko.observable();
+
+    this.initialize(data);
+    this.initialize.originalData = ko.observable(data); // observable just so we can see in JSON output
+    
+    // after init, so that it's not recomputed twice
+    this.fullName = ko.computed(this.getFullName, this);
+}
+
+
+ko.utils.extend(CrudModel.prototype, {
+    getFullName: function() {
+        return this.firstName() + " " + this.lastName();
+    },
+    initialize: function(data) {
+        this.firstName(data.firstName);
+        this.lastName(data.lastName);
+        this.email(data.email);
+    },
+    revert: function() {
+        this.initialize(this.initialize.originalData());
+    },
+    save: function() {
+        this.initialize.originalData(ko.toJS(this));  
+//Note: fullName now appears in the "originalData", which is harmless.  However, we could delete fullName from the result of ko.toJS(this) or we could "hide" fullName as a sub-observable.
+    }
+});
+
+var model = new CrudModel({
+    firstName: "Ben",
+    lastName: "Foster",
+    email: "a@b.com"
+});
+ko.applyBindings(model);
+});//]]> 
+
+</script>
+
+</head>
+<body>
+  <p>
+    <label>Primeiro Nome</label> <input data-bind="value: firstName"/>
+</p>
+<p>
+    <label>último Nome</label> <input data-bind="value: lastName"/>
+</p>
+<p>
+    <label>Email</label> <input data-bind="value: email"/>
+</p>
+<p>
+<button data-bind="click: save">Salvar</button> <button data-bind="click: revert">Deletar</button>
+</p>
+
+<pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
+original
+<pre data-bind="text: ko.toJSON(initialize.originalData, null, 2)"></pre>
+
+  
+</body>
+
+</html>
