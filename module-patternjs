@@ -1,0 +1,90 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Revealing Module Pattern - jsFiddle demo</title>
+  
+  
+  <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+  
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  
+  
+  <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+  
+  <style type='text/css'>
+    @import url(http://fonts.googleapis.com/css?family=Francois+One);
+body {
+    width:510px;
+    margin:0 auto;
+    margin-top:20px;
+    text-align:center;
+}
+img {
+    border:5px solid #561B00;
+    -webkit-filter:sepia(50%);
+    -webkit-box-shadow:0 19px 11px -15px #000;
+}
+p {
+    font-size:2em;
+    font-family:'Francois One', sans-serif;
+    padding:10px;
+}
+  </style>
+  
+
+
+
+<script type='text/javascript'>//<![CDATA[
+$(function(){
+var GatoModulo = function() {
+
+    // Private variable
+    var FraseGato = "Random text only accesible through this module";
+
+    function FraseGatoFunction() {
+        $('#cat-name').text(FraseGato);
+    }
+
+    function publicSetCatName(Nomegato) {
+        FraseGato = Nomegato;
+    }
+
+    function publicGetCatName() {
+        FraseGatoFunction();
+    }
+
+    // Return an object containing pointers to private functions
+    return {
+        setCatName: publicSetCatName,
+        getCatName: publicGetCatName
+    };
+
+}();
+
+$('input').click(function() {
+    switch (this.id) {
+    case "set":
+        GatoModulo.setCatName("Miffles");
+        break;
+    case "get":
+        GatoModulo.getCatName();
+        break;
+    }
+});
+});//]]> 
+
+</script>
+
+</head>
+<body>
+  <div>
+    <img src="http://placekitten.com/500/200" width="500" height="200" />
+</div>
+<p id="cat-name">Set the name, then get it.</p>
+<input id="set" type="button" value="GatoModulo.setCatName('Miffles')" />
+<input id="get" type="button" value="GatoModulo.getCatName()" />
+
+  
+</body>
+
+</html>
