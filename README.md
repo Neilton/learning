@@ -9,3 +9,7 @@ ALTER TABLE departments ADD (
   CONSTRAINT dept_pk PRIMARY KEY (ID));
 
 CREATE SEQUENCE dept_seq START WITH 1;
+
+https://github.com/LucaCanali/Oracle_DBA_scripts
+
+https://github.com/gwenshap/Oracle-DBA-Scripts
